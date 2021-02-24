@@ -34,6 +34,16 @@ client.on("ready", () => {
 
 client.on("message", message => {  
 if(message.author.id === client.user.id) return
+/*let blacklisted = ['ptn', 'fdp', 'ntm', 'connard', 'connasse', 'pute', 'salope'];
+
+for (var i in blacklisted) {
+  if(message.content.toLowerCase().includes(blacklisted[i].toLowerCase())){
+  const channel = client.channels.cache.find(channel => channel.id === '812304842647273534')
+  message.delete();
+  message.reply("Attention mot interdit!").then(msg => msg.delete({timeout: 4000})).catch(console.error);
+  channel.send(`[LOG] ${message.author.tag} a utilisé un mot interdit (${blacklisted[i].toLowerCase()} dans le salon <#${message.channel.id}>)`)
+  }
+}*/
 
   if(message.channel.id === '789670704911613997' || message.channel.id === '811663466325868635'){
     const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
@@ -290,10 +300,18 @@ if(command === "update"){
     if(args[1] === '1'){
     let embed = new Discord.MessageEmbed()
     .setTitle(`Nouvelle update`)
-    .addField("**__⚠️ Update__**",`Nouvelle commande ajoutée : g!vote.\nFaîtes \`g!help vote\` dans <#791679673599131648> pour plus d'informations !`, true )
+    .addField("⚠️**__Update__**",`Nouvelle commande ajoutée : g!vote.\nFaîtes \`g!help vote\` dans <#791679673599131648> pour plus d'informations !`, true )
     .setTimestamp(new Date)
     message.channel.send(embed).then(msg => msg.pin())
-  }}
+  }
+  if(args[1] === '2'){
+    let embed = new Discord.MessageEmbed()
+    .setTitle(`Nouvelle update`)
+    .addField("⚠️**__Update__**",`Github ajouté : https://github.com/Semanteo/Genepix-bot !`, true )
+    .setTimestamp(new Date)
+    message.channel.send(embed).then(msg => msg.pin())
+  }
+}
   else{
     message.reply("Vous n'avez pas le droit")
   }
@@ -682,7 +700,7 @@ if (emoji.id == '807948700777054218') {
 }
 });
 client.on('messageDelete', message => {
-  if(message.mentions.members.first()){
+  if(message.mentions.members.first().id != message.author.id){
     message.channel.send(`${message.mentions.members.first()} tu as été ghost ping par <@${message.author.id}> 😉`)
   }
 });
