@@ -37,6 +37,6 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           architecture: ${{ matrix.architecture }}
-      - run: echo "{/home/runner/work/Genepix-bot/package.json}" >> $GITHUB_PATH
+      - run: echo "/home/runner/work/Genepix-bot/" >> $GITHUB_PATH
       - run: npm install
       - run: npm test
