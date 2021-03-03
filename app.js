@@ -12,7 +12,7 @@ client.on("ready", () => {
     const table = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'scores';").get();
     if (!table['count(*)']) {
 
-        sql.prepare("CREATE TABLE scores (id TEXT PRIMARY KEY, user TEXT, guild TEXT, java INTEGER, python INTEGER, rust INTEGER, discordjs INTEGER, discordpy INTEGER, c INTEGER, cplus INTEGER, csharp INTEGER, javascript INTEGER, html INTEGER, php INTEGER, sys INTEGER, bdd INTEGER, arduino INTEGER, lua INTEGER, seo INTEGER, asm INTEGER, warns INTEGER);").run();
+        sql.prepare("CREATE TABLE scores (id TEXT PRIMARY KEY, user TEXT, guild TEXT, java INTEGER, python INTEGER, rust INTEGER, discordjs INTEGER, discordpy INTEGER, c INTEGER, cplus INTEGER, csharp INTEGER, javascript INTEGER, html INTEGER, php INTEGER, sys INTEGER, database INTEGER, arduino INTEGER, lua INTEGER, seo INTEGER, asm INTEGER, warns INTEGER);").run();
 
         sql.prepare("CREATE UNIQUE INDEX idx_scores_id ON scores (id);").run();
         sql.pragma("synchronous = 1");
@@ -21,7 +21,7 @@ client.on("ready", () => {
 
     client.getScore = sql.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
     // REATE OR REPLACE - Supports that syntax is Oracle.
-    client.setScore = sql.prepare("REPLACE INTO scores (id, user, guild, java, python, rust, discordjs, discordpy, c, cplus, csharp, javascript, html, php, sys, bdd, arduino, lua, seo, asm, warns) VALUES (@id, @user, @guild, @java, @python, @rust, @discordjs, @discordpy, @c, @cplus, @csharp, @javascript, @html, @php, @sys, @bdd, @arduino, @lua, @seo, @asm, @warns);");
+    client.setScore = sql.prepare("REPLACE INTO scores (id, user, guild, java, python, rust, discordjs, discordpy, c, cplus, csharp, javascript, html, php, sys, database, arduino, lua, seo, asm, warns) VALUES (@id, @user, @guild, @java, @python, @rust, @discordjs, @discordpy, @c, @cplus, @csharp, @javascript, @html, @php, @sys, @database, @arduino, @lua, @seo, @asm, @warns);");
     setInterval(function () {
         client.user.setPresence({
             activity: {
@@ -43,16 +43,6 @@ client.on('message', msg => {
 
 client.on("message", message => {
     if (message.author.id === client.user.id) return
-    /*let blacklisted = ['ptn', 'fdp', 'ntm', 'connard', 'connasse', 'pute', 'salope'];
-
-    for (var i in blacklisted) {
-      if(message.content.toLowerCase().includes(blacklisted[i].toLowerCase())){
-      const channel = client.channels.cache.find(channel => channel.id === '812304842647273534')
-      message.delete();
-      message.reply("Attention mot interdit!").then(msg => msg.delete({timeout: 4000})).catch(console.error);
-      channel.send(`[LOG] ${message.author.tag} a utilisé un mot interdit (${blacklisted[i].toLowerCase()} dans le salon <#${message.channel.id}>)`)
-      }
-    }*/
 
     if (message.channel.id === '789670704911613997' || message.channel.id === '811663466325868635') {
         const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
@@ -94,7 +84,7 @@ client.on("message", message => {
                 html: 0,
                 php: 0,
                 sys: 0,
-                bdd: 0,
+                database: 0,
                 arduino: 0,
                 lua: 0,
                 seo: 0,
@@ -119,7 +109,7 @@ client.on("message", message => {
         const html = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY html DESC LIMIT 1;").all(message.guild.id);
         const php = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY php DESC LIMIT 1;").all(message.guild.id);
         const sys = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY sys DESC LIMIT 1;").all(message.guild.id);
-        const bdd = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY bdd DESC LIMIT 1;").all(message.guild.id);
+        const database = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY database DESC LIMIT 1;").all(message.guild.id);
         const arduino = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY arduino DESC LIMIT 1;").all(message.guild.id);
         const lua = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY lua DESC LIMIT 1;").all(message.guild.id);
         const seo = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY seo DESC LIMIT 1;").all(message.guild.id);
@@ -219,10 +209,10 @@ client.on("message", message => {
                 inline: false
             });
         }
-        for (const data of bdd) {
+        for (const data of database) {
             embed.addFields({
-                name: "<:db:807948694430547998> bdd",
-                value: `<:embed:801174015406374933> ${client.users.cache.get(data.user)} • **${data.bdd}** aides`,
+                name: "<:db:807948694430547998> database",
+                value: `<:embed:801174015406374933> ${client.users.cache.get(data.user)} • **${data.database}** aides`,
                 inline: false
             });
         }
@@ -350,10 +340,10 @@ client.on("message", message => {
                 inline: false
             })
         }
-        if (userscore.bdd !== 0) {
+        if (userscore.database !== 0) {
             embed.addFields({
-                name: `<:db:807948694430547998> bdd`,
-                value: `<:embed:801174015406374933> **${userscore.bdd}** aides`,
+                name: `<:db:807948694430547998> database`,
+                value: `<:embed:801174015406374933> **${userscore.database}** aides`,
                 inline: false
             })
         }
@@ -385,7 +375,7 @@ client.on("message", message => {
                 inline: false
             })
         }
-        if (userscore.asm === 0 && userscore.seo === 0 && userscore.lua === 0 && userscore.arduino === 0 && userscore.bdd === 0 && userscore.sys === 0 && userscore.php === 0 && userscore.html === 0 && userscore.csharp === 0 && userscore.cplus === 0 && userscore.c === 0 && userscore.discordpy === 0 && userscore.discordjs === 0 && userscore.rust === 0 && userscore.java === 0 && userscore.python === 0 && userscore.javascript === 0) {
+        if (userscore.asm === 0 && userscore.seo === 0 && userscore.lua === 0 && userscore.arduino === 0 && userscore.database === 0 && userscore.sys === 0 && userscore.php === 0 && userscore.html === 0 && userscore.csharp === 0 && userscore.cplus === 0 && userscore.c === 0 && userscore.discordpy === 0 && userscore.discordjs === 0 && userscore.rust === 0 && userscore.java === 0 && userscore.python === 0 && userscore.javascript === 0) {
             embed.addFields({name: `Aucune aides`, value: `<:embed:801174015406374933>`, inline: false})
         }
         return message.channel.send({embed});
@@ -442,7 +432,7 @@ client.on("message", message => {
                     .setAuthor("Informations sur la commande vote", client.user.displayAvatarURL())
                     .addField("🙍️ **__Infos__**", `Commande permettant d'augmenter le nombre d'aides d'une personne dans le langage concerné`)
                     .addField("⚙️ **__Utilisation__**", `g! + vote + {@mention} + {langage}\nCe qui est entre accolades est optionnel`)
-                    .addField("✏️ **__Langages disponibles__**", `java, python, rust, javascript, discordjs, discordpy, c, c++, c#, html, php, sys, bdd, arduino, lua, seo, asm`)
+                    .addField("✏️ **__Langages disponibles__**", `java, python, rust, javascript, discordjs, discordpy, c, c++, c#, html, php, sys, database, arduino, lua, seo, asm`)
                     .setThumbnail(client.user.displayAvatarURL())
                     .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
                     .setColor(0x8186dc);
@@ -550,7 +540,7 @@ client.on("message", message => {
                 html: 0,
                 php: 0,
                 sys: 0,
-                bdd: 0,
+                database: 0,
                 arduino: 0,
                 lua: 0,
                 seo: 0,
@@ -634,8 +624,8 @@ client.on("message", message => {
                 message.channel.send(`Aide pour <@${membre.user.id}> enregistrée`)
                 channel.send(`[LOG] : ${message.author.tag} a ajouté une aide à ${membre.user.tag} dans le salon <#${message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${message.channel.id}/${message.id}`)
             }
-            if (args[2] === 'bdd') {
-                score.bdd++;
+            if (args[2] === 'database') {
+                score.database++;
                 client.setScore.run(score);
                 message.channel.send(`Aide pour <@${membre.user.id}> enregistrée`)
                 channel.send(`[LOG] : ${message.author.tag} a ajouté une aide à ${membre.user.tag} dans le salon <#${message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${message.channel.id}/${message.id}`)
@@ -714,7 +704,7 @@ client.on('messageReactionAdd', (reaction, user) => {
                 html: 0,
                 php: 0,
                 sys: 0,
-                bdd: 0,
+                database: 0,
                 arduino: 0,
                 lua: 0,
                 seo: 0,
@@ -785,7 +775,7 @@ client.on('messageReactionAdd', (reaction, user) => {
                 channel.send(`[LOG] : ${user.tag} a réagit avec l'émoji ${emoji} sur le message de <@${reaction.message.author.tag}> dans le salon <#${reaction.message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${reaction.message.channel.id}/${reaction.message.id}`)
             }
             if (emoji.id === '807948694430547998') {
-                score.bdd++;
+                score.database++;
                 client.setScore.run(score);
                 channel.send(`[LOG] : ${user.tag} a réagit avec l'émoji ${emoji} sur le message de <@${reaction.message.author.tag}> dans le salon <#${reaction.message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${reaction.message.channel.id}/${reaction.message.id}`)
             }
@@ -838,7 +828,7 @@ client.on('messageReactionRemove', (reaction, user) => {
                 html: 0,
                 php: 0,
                 sys: 0,
-                bdd: 0,
+                database: 0,
                 arduino: 0,
                 lua: 0,
                 seo: 0,
@@ -907,7 +897,7 @@ client.on('messageReactionRemove', (reaction, user) => {
             channel.send(`[LOG] : ${user.tag} a enlevé sa réaction avec l'émoji ${emoji} sur le message de <@${reaction.message.author.tag}> dans le salon <#${reaction.message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${reaction.message.channel.id}/${reaction.message.id}`)
         }
         if (emoji.id === '807948694430547998') {
-            score.bdd--;
+            score.database--;
             client.setScore.run(score);
             channel.send(`[LOG] : ${user.tag} a enlevé sa réaction avec l'émoji ${emoji} sur le message de <@${reaction.message.author.tag}> dans le salon <#${reaction.message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${reaction.message.channel.id}/${reaction.message.id}`)
         }
