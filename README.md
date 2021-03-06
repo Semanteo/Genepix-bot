@@ -1,7 +1,7 @@
 # Genepix-bot
-Bot créer pour le serveur discord de Genepix
+> Créé pour le serveur discord de Genepix
 
-🙍️ Info : Bot de modération qui enregistre le nombre d'aides de chaque personnes du serveur
+🙍️ Info : Bot de modération qui enregistre le nombre d'aides de chaque personne présente sur le serveur
 
 ✏️ Commandes disponibles : g!lb, g!rank/g!level/g!lvl, g!tiktok, g!vote, g!help/g!infos
 
@@ -9,11 +9,13 @@ Pour les informations sur les commandes : g! + help/infos + nom de la commande
 
 ❓ A quoi il sert ? :  Genepix sert à comptabiliser le nombre d'aides apportées par les utilisateurs du serveur
 
-❓ Pour quoi faire ? : Ce système permet aux personnes sur le serveur de connaitre le "référent" pour chaque langage de programmation. Cela permet aux personnes qui ont besoin d'aide d'avoir une personne à qui se référer en cas de problèmes
+❓ Pour quoi faire ? : Ce système permet aux personnes sur le serveur de connaître le "référent" pour chaque langage de programmation. Cela permet aux personnes qui ont besoin d'aide d'avoir une personne à qui se référer en cas de problème
 
-❓ Comment ça marche ? : Les personnes qui se sont faites aidées réagissent au message de la personne qui a aidé afin de lui faire augmenter son nombre d'aides dans le langage concerné
+❓ Comment ça marche ? : Les personnes qui se sont faites aider réagissent au message de la personne qui a aidé afin de lui faire augmenter son nombre d'aides apportées dans le langage concerné
 
-# Installation
+## Setup
+
+#### Installation
 
 Avoir sur son ordi NodeJS 12.x.x, PM2 et NPM latest ou Yarn latest
 
@@ -32,19 +34,25 @@ Ajouter le token depuis https://discord.com/developers/applications pour votre b
 ```
 
 ```bash
-npm install 
+npm install
 ```
 
-Si yarn alors dans ce cas un yarn install
+Si vous utilisez yarn :
+```bash
+yarn install
+```
 
-#Start
+#### Start
 
 ```yaml
 npm start
 ```
 
-Si yarn alors faire un yarn start
+Si vous utilisez yarn :
+```bash
+yarn start
+```
 
-#Bug
+## Bug
 
-Si vous rencontrez un soucis ou quoi que ce soit vous pouvez écrire un ticket ici : https://github.com/Semanteo/Genepix-bot/issues
+Si vous rencontrez un soucis ou quoi que ce soit vous pouvez ouvrir un ticket ici : https://github.com/Semanteo/Genepix-bot/issues
