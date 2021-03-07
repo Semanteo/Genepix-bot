@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-
+const {convertTime} = require("./utils/function.js");
 function infos(message, client, args) {
         if (!args[1]) {
 
