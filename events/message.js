@@ -1,0 +1,111 @@
+const {client} = require('../app');
+const SQLite = require('better-sqlite3');
+const sql = new SQLite('./scores.sqlite');
+const tik = require('../commands/tiktok.js');
+const infos = require('../commands/help.js');
+const lb = require('../commands/lb.js');
+const rank = require('../commands/rank.js');
+const vote = require('../commands/vote.js');
+const warn = require('../commands/warn.js')
+const update = require('../commands/update');
+const warns = require('../commands/warns.js');
+const resetwarn = require('../commands/resetwarn.js');
+const auth = require('../auth.json');
+
+client.on("message", message => {
+    if (message.author.id === client.user.id) return
+
+    if (message.channel.id === '789670704911613997' || message.channel.id === '811663466325868635') {
+        const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
+
+        if (!(message.member.roles.cache.has(role) || message.author.id === '398126558432329728' || message.author.id === '533575225556598804')) {
+            if (message.content.startsWith(auth.prefix)) return message.reply("Merci de faire les commandes dans <#791679673599131648> !")
+        }
+    }
+    const hi = ["Salut", "Bonjour", "Slt"]
+    const n = Math.floor(Math.random() * 10) + 1;
+    for (const i in hi) {
+        if (n === '10') {
+            if (message.content.toLowerCase().includes(hi[i].toLowerCase())) {
+                message.react('👋')
+            }
+        }
+    }
+    if (message.author.bot) return;
+    let score;
+
+    if (message.guild) {
+        score = client.getScore.get(message.author.id, message.guild.id);
+        if (!score) {
+            score = {
+                id: `${message.guild.id}-${message.author.id}`,
+                user: message.author.id,
+                guild: message.guild.id,
+                java: 0,
+                python: 0,
+                rust: 0,
+                discordjs: 0,
+                discordpy: 0,
+                c: 0,
+                cplus: 0,
+                csharp: 0,
+                javascript: 0,
+                html: 0,
+                php: 0,
+                sys: 0,
+                bdd: 0,
+                arduino: 0,
+                lua: 0,
+                seo: 0,
+                asm: 0,
+                warns: 0
+            }
+        }
+        client.setScore.run(score);
+    }
+    if (message.content.indexOf(auth.prefix) !== 0) return;
+    let cmd = message.content.split(' ')[0];
+    if (message.channel.type === "dm") return
+    const args = message.content.slice(auth.prefix.length).trim().split(" ");
+    if(cmd.startsWith(auth.prefix)) {
+      cmd = cmd.slice(auth.prefix.length)
+      switch(cmd) {
+        case "tiktok":
+          tik.tik(message, client)
+        break;
+        case "help":
+            infos.infos(message, client, args)
+        break;
+        case "infos":
+            infos.infos(message, client, args)
+        break;
+        case "lb":
+            lb.lb(message, client, sql)
+        break;
+        case "rank":
+            rank.rank(message, client)
+        break;
+        case "lvl":
+            rank.rank(message, client)
+        break;        
+        case "level":
+            rank.rank(message, client)
+        break;
+        case "vote":
+            vote.vote(message, client, args)
+        break;
+        case "warns":
+            warn.warn(message,client)
+        break;
+        case "update":
+            update.update(message, args)
+        break;
+        case "warn":
+            warns.warns(message, client)
+        break;
+        case "resetwarn":
+            resetwarn.resetwarn(message, client)
+        break;
+    }
+    }
+});
