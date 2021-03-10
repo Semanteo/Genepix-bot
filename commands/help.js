@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const {convertTime} = require("./utils/function.js");
+const {convertTime} = require("../utils/function.js");
 function infos(message, client, args) {
         if (!args[1]) {
 
@@ -11,6 +11,7 @@ function infos(message, client, args) {
                 .addField("❓ **__A quoi je sers ?__**", `Genepix sert à comptabiliser le nombre d'aides apportées par les utilisateurs du serveur`)
                 .addField("❓ **__Pour quoi faire ?__**", `Ce système permet aux personnes sur le serveur de connaitre le \"référent\" pour chaque langage de programmation. Cela permet aux personnes qui ont besoin d'aide d'avoir une personne à qui se référer en cas de problèmes`)
                 .addField("🤔 **__Comment ça marche ?__**", `Les personnes qui se sont faites aidées réagissent au message de la personne qui a aidé afin de lui faire augmenter son nombre d'aides dans le langage concerné`)
+                .addField("<:github:819244316430041088> **__Github__**", `https://github.com/Semanteo/Genepix-bot`)
                 .setThumbnail(client.user.displayAvatarURL())
                 .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
                 .setColor(0x8186dc);

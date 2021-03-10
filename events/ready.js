@@ -1,6 +1,6 @@
 const {client} = require('../app');
 const SQLite = require('better-sqlite3');
-const sql = new SQLite('../scores.sqlite');
+const sql = new SQLite('./scores.sqlite');
 
 client.on("ready", () => {
 
