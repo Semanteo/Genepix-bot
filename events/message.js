@@ -11,6 +11,11 @@ const update = require('../commands/update');
 const warns = require('../commands/warns.js');
 const resetwarn = require('../commands/resetwarn.js');
 const auth = require('../auth.json');
+const stats = require('../commands/stats.js');
+const info = require('../commands/botinfo.js');
+const serverinfo = require('../commands/serverinfo.js');
+const ping = require('../commands/ping.js');
+const links = require('../commands/links');
 
 client.on("message", message => {
     if (message.author.id === client.user.id) return
@@ -106,6 +111,21 @@ client.on("message", message => {
         case "resetwarn":
             resetwarn.resetwarn(message, client)
         break;
-    }
+        case "stats":
+            stats.stats(message, client)
+        break;
+        case "botinfo":
+            info.inf(message, client)
+        break;
+        case "serverinfo":
+            serverinfo.serverinfo(message, client)
+        break;
+        case "ping":
+            ping.ping(message, client)
+        break;
+        case "links":
+            links.links(message, client)
+        break;
+        }
     }
 });

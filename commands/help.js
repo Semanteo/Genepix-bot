@@ -6,7 +6,6 @@ function infos(message, client, args) {
             let info = new Discord.MessageEmbed()
                 .setAuthor("Informations sur moi", client.user.displayAvatarURL())
                 .addField("🙍️ **__Infos__**", `Bot de modération qui enregistre le nombre d'aides de chaque personnes du serveur`)
-                .addField("⏲️ **__Uptime__**", `${convertTime(process.uptime())}`)
                 .addField("✏️ **__Commandes disponibles__**", `**- g!lb**\n**- g!rank/g!level/g!lvl**\n**- g!tiktok**\n**- g!vote**\n**- g!help/g!infos**\nPour les informations sur la commande : g! + help/infos + nom de la commande`)
                 .addField("❓ **__A quoi je sers ?__**", `Genepix sert à comptabiliser le nombre d'aides apportées par les utilisateurs du serveur`)
                 .addField("❓ **__Pour quoi faire ?__**", `Ce système permet aux personnes sur le serveur de connaitre le \"référent\" pour chaque langage de programmation. Cela permet aux personnes qui ont besoin d'aide d'avoir une personne à qui se référer en cas de problèmes`)
