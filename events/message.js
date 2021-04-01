@@ -76,7 +76,7 @@ client.on("message", message => {
       cmd = cmd.slice(auth.prefix.length)
       switch(cmd) {
         case "tiktok":
-          tik.tik(message, client)
+          tik.tik(message)
         break;
         case "help":
             infos.infos(message, client, args)
