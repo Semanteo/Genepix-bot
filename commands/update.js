@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-function warn(message, args) {
+function update(message, args) {
         const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
 
         if (message.member.roles.cache.has(role) || message.author.id === '398126558432329728' || message.author.id === '533575225556598804') {
@@ -18,9 +18,18 @@ function warn(message, args) {
                     .setTimestamp(new Date)
                 message.channel.send(embed).then(msg => msg.pin())
             }
+            if (args[1] === '3') {
+                const file = new Discord.MessageAttachment('./idees.png');
+                let embed = new Discord.MessageEmbed()
+                    .setTitle(`Nouvelle update`)
+                    .addField("⚠️**__Update__**", `Système d'idées ajouté`, true)
+                    .setTimestamp(new Date)
+                    .setImage('attachment://idees.png')
+                message.channel.send({ files: [file], embed: embed }).then(msg => msg.pin())
+            }
         } else {
             message.reply("Vous n'avez pas le droit")
         }
     
 }
-module.exports.warn = warn;
+module.exports.update = update;
