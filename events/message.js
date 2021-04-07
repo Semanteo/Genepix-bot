@@ -1,4 +1,5 @@
 const {client} = require('../app');
+const Discord = require('discord.js')
 const SQLite = require('better-sqlite3');
 const sql = new SQLite('./scores.sqlite');
 const tik = require('../commands/tiktok.js');
@@ -16,6 +17,7 @@ const info = require('../commands/botinfo.js');
 const serverinfo = require('../commands/serverinfo.js');
 const ping = require('../commands/ping.js');
 const links = require('../commands/links');
+const g = "791642103393812490";
 
 client.on("message", message => {
     if (message.author.id === client.user.id) return
@@ -129,3 +131,21 @@ client.on("message", message => {
         }
     }
 });
+
+client.on('message', async message => {
+    if (message.channel.id === g) {
+      if(message.author.id !== '799936922939162635'){
+        const idée = message.content
+        const membre = message.member;
+        let embed = new Discord.MessageEmbed()
+        .setTitle(`Nouvelle idée de ${membre.user.tag}`)
+        .setThumbnail(membre.user.displayAvatarURL({dynamic: true}))
+        .setDescription(`**Idée :** ${idée}`)
+        .addField("\u200b", "Réagissez dans <#797472517647630377>")
+        .setTimestamp(new Date)
+        const c = await message.channel.send(embed).then(message.delete())
+        await c.react('<:yes:812255443036274720>');
+        await c.react('🤔');
+        await c.react('<:no:829015744595099648>');
+        }}
+  });
