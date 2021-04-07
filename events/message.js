@@ -8,7 +8,6 @@ const lb = require('../commands/lb.js');
 const rank = require('../commands/rank.js');
 const vote = require('../commands/vote.js');
 const warn = require('../commands/warn.js')
-const update = require('../commands/update');
 const warns = require('../commands/warns.js');
 const resetwarn = require('../commands/resetwarn.js');
 const auth = require('../auth.json');
@@ -103,9 +102,6 @@ client.on("message", message => {
         break;
         case "warns":
             warn.warn(message,client)
-        break;
-        case "update":
-            update.update(message, args)
         break;
         case "warn":
             warns.warns(message, client)
