@@ -2,20 +2,8 @@ const {client} = require('../app');
 const Discord = require('discord.js')
 const SQLite = require('better-sqlite3');
 const sql = new SQLite('./scores.sqlite');
-const tik = require('../commands/tiktok.js');
-const infos = require('../commands/help.js');
-const lb = require('../commands/lb.js');
-const rank = require('../commands/rank.js');
-const vote = require('../commands/vote.js');
-const warn = require('../commands/warn.js')
-const warns = require('../commands/warns.js');
-const resetwarn = require('../commands/resetwarn.js');
 const auth = require('../auth.json');
-const stats = require('../commands/stats.js');
-const info = require('../commands/botinfo.js');
-const serverinfo = require('../commands/serverinfo.js');
-const ping = require('../commands/ping.js');
-const links = require('../commands/links');
+const commandeHelper = require('../utils/comandeHelper');
 const g = "791642103393812490";
 
 client.on("message", message => {
@@ -75,56 +63,10 @@ client.on("message", message => {
     const args = message.content.slice(auth.prefix.length).trim().split(" ");
     if(cmd.startsWith(auth.prefix)) {
       cmd = cmd.slice(auth.prefix.length)
-      switch(cmd) {
-        case "tiktok":
-          tik.tik(message)
-        break;
-        case "help":
-            infos.infos(message, client, args)
-        break;
-        case "infos":
-            infos.infos(message, client, args)
-        break;
-        case "lb":
-            lb.lb(message, client, sql)
-        break;
-        case "rank":
-            rank.rank(message, client)
-        break;
-        case "lvl":
-            rank.rank(message, client)
-        break;        
-        case "level":
-            rank.rank(message, client)
-        break;
-        case "vote":
-            vote.vote(message, client, args)
-        break;
-        case "warns":
-            warn.warn(message,client)
-        break;
-        case "warn":
-            warns.warns(message, client)
-        break;
-        case "resetwarn":
-            resetwarn.resetwarn(message, client)
-        break;
-        case "stats":
-            stats.stats(message, client)
-        break;
-        case "botinfo":
-            info.inf(message, client)
-        break;
-        case "serverinfo":
-            serverinfo.serverinfo(message, client)
-        break;
-        case "ping":
-            ping.ping(message, client)
-        break;
-        case "links":
-            links.links(message, client)
-        break;
-        }
+      const command = commandeHelper.getCommand(cmd)
+      if (command){
+          command.func(message, client, args,sql)
+      }
     }
 });
 

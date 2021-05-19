@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const moment = require('moment');
 moment.locale("fr");
 
-function stats(message, client) {
+module.exports = function (message, client) {
 
     const membre = message.mentions.members.first() || message.member;
     const userscore = client.getScore.get(membre.id, message.guild.id);
@@ -27,4 +27,3 @@ function stats(message, client) {
     message.channel.send(embed)
             
 }
-module.exports.stats = stats;

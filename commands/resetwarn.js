@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-function resetwarn(message, client) {
+module.exports = function (message, client) {
         const membre = message.mentions.members.first()
         const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
 
@@ -16,4 +16,3 @@ function resetwarn(message, client) {
             message.reply("Vous n'avez pas le droit")
         }   
 }
-module.exports.resetwarn = resetwarn;

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-function vote(message, client, args) {
+module.exports = function (message, client, args) {
         const membre = message.mentions.members.first()
         const channel = client.channels.cache.find(channel => channel.id === '812304842647273534')
         let score = client.getScore.get(membre.id, message.guild.id);
@@ -138,4 +138,3 @@ function vote(message, client, args) {
             }
         }   
 }
-module.exports.vote = vote;

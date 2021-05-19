@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const {convertTime} = require("../utils/function.js");
 const os = require("os");
 
-function inf(message, client) {
+module.exports = function (message, client) {
     let embed = new Discord.MessageEmbed()
     .setAuthor("Informations sur moi", client.user.displayAvatarURL())
     .setColor(0x8186dc)
@@ -12,4 +12,3 @@ function inf(message, client) {
     message.channel.send(embed)
 
 }
-module.exports.inf = inf;

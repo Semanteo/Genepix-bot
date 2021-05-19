@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const {convertTime} = require("../utils/function.js");
-function infos(message, client, args) {
+module.exports = function (message, client, args) {
         if (!args[1]) {
 
             let info = new Discord.MessageEmbed()
@@ -59,4 +59,3 @@ function infos(message, client, args) {
             }
         }
 }
-module.exports.infos = infos;
