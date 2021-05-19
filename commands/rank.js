@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-function rank(message, client) {
+module.exports = function (message, client) {
         const membre = message.mentions.members.first() || message.member;
 
         let userscore = client.getScore.get(membre.id, message.guild.id);
@@ -135,4 +135,3 @@ function rank(message, client) {
         return message.channel.send({embed});
     
 }
-module.exports.rank = rank;

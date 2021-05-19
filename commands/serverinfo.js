@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-function serverinfo(message, client) {
 
+module.exports = function (message, client) {
 function checkDays(date) {
     let now = new Date();
     let diff = now.getTime() - date.getTime();
@@ -36,4 +36,3 @@ const embed = new Discord.MessageEmbed()
         .setThumbnail(message.guild.iconURL())
     message.channel.send(embed);
 })})}
-module.exports.serverinfo = serverinfo;

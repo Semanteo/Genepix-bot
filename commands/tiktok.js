@@ -1,7 +1,7 @@
 const TikTokScraper = require('tiktok-scraper');
 const Discord = require('discord.js');
 
-async function tik(message) {
+module.exports = async function (message) {
         try {
             const user = await TikTokScraper.getUserProfileInfo('genepixontiktok');
             let em = new Discord.MessageEmbed()
@@ -18,4 +18,3 @@ async function tik(message) {
             console.log(error);
         }
 }
-module.exports.tik = tik;

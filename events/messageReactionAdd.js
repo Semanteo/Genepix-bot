@@ -33,10 +33,9 @@ client.on('messageReactionAdd', (reaction, user) => {
                 lua: 0,
                 seo: 0,
                 asm: 0,
-                warns: 0
+                voc: 0
             }
         }
-        if (score.warns < 5) {
 
             if (emoji.id === '792105873915904030') {
                 score.java++;
@@ -124,5 +123,4 @@ client.on('messageReactionAdd', (reaction, user) => {
                 channel.send(`[LOG] : ${user.tag} a réagit avec l'émoji ${emoji} sur le message de <@${reaction.message.author.tag}> dans le salon <#${reaction.message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${reaction.message.channel.id}/${reaction.message.id}`)
             }
         }
-    }
 });

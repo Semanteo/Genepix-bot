@@ -30,7 +30,7 @@ client.on('messageReactionRemove', (reaction, user) => {
                 lua: 0,
                 seo: 0,
                 asm: 0,
-                warns: 0
+                voc: 0
             }
         }
         if (emoji.id === '792105873915904030') {

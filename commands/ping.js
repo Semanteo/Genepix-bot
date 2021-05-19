@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-async function ping(message, client) {
+module.exports = async function (message, client) {
     
 
     let embed = new Discord.MessageEmbed()
@@ -13,5 +13,3 @@ async function ping(message, client) {
     .addField("**API**", Math.round(client.ws.ping))
     m.edit(nembed);
 };
-
-module.exports.ping = ping;

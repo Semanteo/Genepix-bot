@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const moment = require('moment');
 moment.locale("fr");
 
-function stats(message, client) {
+module.exports = function (message, client, args) {
 
     const membre = message.mentions.members.first() || message.member;
     const userscore = client.getScore.get(membre.id, message.guild.id);
@@ -22,9 +22,7 @@ function stats(message, client) {
     .addField("A créé son compte le :", moment.utc(membre.user.createdAt).format('LL'), true)
     .addField("A rejoint le serveur le :", moment.utc(membre.joinedAt).format('LL'), true)
     .addField("\u200b", "\u200b")
-    .addField("Nombre de warns :", userscore.warns, true)
     .addField("Rôles :", membre.roles.cache.sort((a, b) => b.position - a.position).map(r => r).join(' | '))
     message.channel.send(embed)
             
 }
-module.exports.stats = stats;

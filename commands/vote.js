@@ -1,7 +1,10 @@
 const Discord = require('discord.js');
 
-function vote(message, client, args) {
+module.exports = function (message, client, args) {
         const membre = message.mentions.members.first()
+        if(!membre) {
+            return message.channel.send(`Veuillez mentionner la personne pour qui voter`).then(msg => msg.delete({timeout: 4000})).then(message.delete());
+        }
         const channel = client.channels.cache.find(channel => channel.id === '812304842647273534')
         let score = client.getScore.get(membre.id, message.guild.id);
         if (message.author.id === membre.id) return
@@ -26,12 +29,9 @@ function vote(message, client, args) {
                 arduino: 0,
                 lua: 0,
                 seo: 0,
-                asm: 0,
-                warns: 0
+                asm: 0
             }
         }
-        if (score.warns < 5) {
-
             if (args[2] === 'java') {
                 score.java++;
                 client.setScore.run(score);
@@ -136,6 +136,5 @@ function vote(message, client, args) {
                 message.channel.send(`Aide pour <@${membre.user.id}> enregistrée`)
                 channel.send(`[LOG] : ${message.author.tag} a ajouté une aide à ${membre.user.tag} dans le salon <#${message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${message.channel.id}/${message.id}`)
             }
-        }   
+        
 }
-module.exports.vote = vote;
