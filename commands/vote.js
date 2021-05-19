@@ -136,5 +136,5 @@ module.exports = function (message, client, args) {
                 message.channel.send(`Aide pour <@${membre.user.id}> enregistrée`)
                 channel.send(`[LOG] : ${message.author.tag} a ajouté une aide à ${membre.user.tag} dans le salon <#${message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${message.channel.id}/${message.id}`)
             }
-        
+
 }

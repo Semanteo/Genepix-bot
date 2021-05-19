@@ -71,7 +71,7 @@ client.on("message", message => {
 });
 
 client.on('message', message => {
-    if (message.content.includes('discord.gg/'||'discordapp.com/invite/')) { 
+    if (message.content.includes('discord.gg/'||'discordapp.com/invite/')) {
         message.delete().then(message.channel.send('Les liens ne sont pas autorisés'))
     }
   });

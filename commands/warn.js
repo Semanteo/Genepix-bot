@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 module.exports = function (message, client, args) {
         const membre = message.mentions.members.first()
         const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
-        const role2 = message.guild.roles.cache.find(role => role.id === '792889476091215892')        
+        const role2 = message.guild.roles.cache.find(role => role.id === '792889476091215892')
         if(!membre) {
             return message.channel.send(`Veuillez mentionner la personne à warn.`).then(msg => msg.delete({timeout: 4000})).then(message.delete());
         }
@@ -25,12 +25,12 @@ module.exports = function (message, client, args) {
             .addField('Warn par', message.author)
             .addField('Raison', reason)
             .setFooter(`Genepix | Version 1.0`, client.user.displayAvatarURL())
-            .setTimestamp()     
-                    
+            .setTimestamp()
+
 
             message.channel.send(muteembed);
             client.setWarns.run(score)
         } else {
             message.reply("Vous n'avez pas le droit")
-        }  
+        }
 }

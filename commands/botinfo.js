@@ -3,7 +3,6 @@ const {convertTime} = require("../utils/function.js");
 const os = require("os");
 
 module.exports = function (message, client) {
-    const guild = client.guilds.cache.find(g => g.id === '789670704911613992')
     let embed = new Discord.MessageEmbed()
     .setAuthor("Informations sur moi", client.user.displayAvatarURL())
     .setColor(0x8186dc)
