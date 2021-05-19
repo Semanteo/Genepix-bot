@@ -65,7 +65,7 @@ client.on("message", message => {
       cmd = cmd.slice(auth.prefix.length)
       const command = commandeHelper.getCommand(cmd)
       if (command){
-          command.func(message, client, args,sql)
+          command.func(message, client, args, sql)
       }
     }
 });
