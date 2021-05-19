@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports = function (message, client, sql) {
+module.exports = function (message, client, args, sql) {
         const java = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY java DESC LIMIT 1;").all(message.guild.id);
         const javascript = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY javascript DESC LIMIT 1;").all(message.guild.id);
         const python = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY python DESC LIMIT 1;").all(message.guild.id);
