@@ -8,6 +8,16 @@ class Command {
      */
     constructor(name, func) {
         this.name = name
+        /**
+         * Aucun paramètre sont obligatoire dans les fichier de commandes,
+         * il doivent cependant tous être fournis sur l'événement de message
+         *
+         * @param {import('discord.js').Message} message - Événement de message primordial pour répondre à une commandes
+         * @param {import('discord.js').Client} client - Client du bot utile pour récupérés des information
+         * @param {string[]} args - Tableau d'arguments de la commandes
+         * @param {import('better-sqlite3').Database} sql - Gestionnaire de base de données SQLite
+         * @type {Function}
+         */
         this.func = func
     }
 }
@@ -15,8 +25,7 @@ class Command {
 class CommandFactory {
 
     /**
-     * Renvois la liste des nom des commandes
-     * @returns {Promise<string[]>}
+     * @returns {Promise<string[]>} - Liste des fichier js contenue dans le dossier commandes
      */
     static async readCommands() {
         const folderPath = path.join(__dirname, '..', 'commands')
@@ -26,6 +35,7 @@ class CommandFactory {
 
     /**
      * Initialise et stock toutes les commandes
+     * La methode est appelé une seul fois lors du require du fichier
      * @returns {Promise<void>}
      */
     static async initialize() {
@@ -37,31 +47,32 @@ class CommandFactory {
             try{
                 const func = require(`../commands/${name}.js`)
                 this.commands.set(name, new Command(name, func))
+                console.log('Commande '+name+' chargé !')
             }catch (e){
                 console.error(e)
-                console.log(`../commands/${name}.js`)
+                console.log(`Error de l'import de ../commands/${name}.js`)
             }
         }
         this.initialized = true
     }
 
     /**
-     * Récupére la commande par string si elle et présente
-     * @param {string} name
-     * @returns {Command}
+     * @param {string} name - Nom de la commande dans la hashmap (correspond au nom du fichier js)
+     * @returns {Command} - Commande initialise avec sont attribue func contenant la fonction du fichier js
      */
     static getCommand (name) {
         return this.commands.get(name)
     }
 }
 
-CommandFactory.initialized = false
-CommandFactory.initialize()
+// CODE EXECUTE LORS DU REQUIRE DU FICHIER
 
+CommandFactory.initialized = false
 /**
- * Inisialisaion des commandes
- * @type {Map<string, Command>}
+ * Initialisation des commandes
+ * @type {Map<string, Command>} - Hashmap des commands
  */
 CommandFactory.commands = new Map()
+CommandFactory.initialize()
 
 module.exports = CommandFactory
