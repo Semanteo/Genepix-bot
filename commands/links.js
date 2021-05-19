@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports = function links(message, client){
+module.exports = function (message, client) {
     let embed = new Discord.MessageEmbed()
     .setAuthor('Genepix bot', client.user.displayAvatarURL())
     .setTitle('Links')
