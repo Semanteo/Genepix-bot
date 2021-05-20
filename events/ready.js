@@ -7,6 +7,7 @@ module.exports = function (client) {
     if (!table['count(*)']) {
 
         sql.prepare("CREATE TABLE scores (id TEXT PRIMARY KEY, user TEXT, guild TEXT, java INTEGER, python INTEGER, rust INTEGER, discordjs INTEGER, discordpy INTEGER, c INTEGER, cplus INTEGER, csharp INTEGER, javascript INTEGER, html INTEGER, php INTEGER, sys INTEGER, bdd INTEGER, arduino INTEGER, lua INTEGER, seo INTEGER, asm INTEGER, voc INTEGER);").run();
+        sql.prepare("CREATE TABLE warns (id TEXT PRIMARY KEY, user TEXT, guild TEXT, warner TEXT, reason TEXT);").run();
 
         sql.prepare("CREATE UNIQUE INDEX idx_scores_id ON scores (id);").run();
         sql.pragma("synchronous = 1");
