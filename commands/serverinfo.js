@@ -1,6 +1,16 @@
 const Discord = require("discord.js");
-
-module.exports = function (message, client) {
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "serverinfo",
+			category: "serveur",
+			aliases: [],
+			description: "Commande permettant de voir les infos concernant le serveur",
+			usage: "{{prefix}}serverinfo"
+		});
+	}
+run (message, client) {
 function checkDays(date) {
     let now = new Date();
     let diff = now.getTime() - date.getTime();
@@ -36,3 +46,4 @@ const embed = new Discord.MessageEmbed()
         .setThumbnail(message.guild.iconURL())
     message.channel.send(embed);
 })})}
+};

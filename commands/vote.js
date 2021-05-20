@@ -1,6 +1,16 @@
 const Discord = require('discord.js');
-
-module.exports = function (message, client, args) {
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "vote",
+			category: "aides",
+			aliases: [],
+			description: "Commande permettant de rajouter des aides à un membre",
+			usage: "{{prefix}}vote {membre} {java, python, rust, javascript, discordjs, discordpy, c, c++, c#, html, php, sys, bdd, arduino, lua, seo, asm}"
+		});
+	}
+run(message, client, args) {
         const membre = message.mentions.members.first()
         if(!membre) {
             return message.channel.send(`Veuillez mentionner la personne pour qui voter`).then(msg => msg.delete({timeout: 4000})).then(message.delete());
@@ -135,6 +145,6 @@ module.exports = function (message, client, args) {
                 client.setScore.run(score);
                 message.channel.send(`Aide pour <@${membre.user.id}> enregistrée`)
                 channel.send(`[LOG] : ${message.author.tag} a ajouté une aide à ${membre.user.tag} dans le salon <#${message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${message.channel.id}/${message.id}`)
-            }
-
+            }   
 }
+};

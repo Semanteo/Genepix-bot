@@ -1,6 +1,16 @@
 const Discord = require('discord.js');
-
-module.exports = function (message, client) {
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "rank",
+			category: "aides",
+			aliases: ["lvl", "level"],
+			description: "Commande permettant de voir les aides de quelqu'un ou les notres",
+			usage: "{{prefix}}rank/lvl/level <membre>"
+		});
+	}
+run(message, client) {
         const membre = message.mentions.members.first() || message.member;
 
         let userscore = client.getScore.get(membre.id, message.guild.id);
@@ -132,6 +142,6 @@ module.exports = function (message, client) {
         if (userscore.asm === 0 && userscore.seo === 0 && userscore.lua === 0 && userscore.arduino === 0 && userscore.bdd === 0 && userscore.sys === 0 && userscore.php === 0 && userscore.html === 0 && userscore.csharp === 0 && userscore.cplus === 0 && userscore.c === 0 && userscore.discordpy === 0 && userscore.discordjs === 0 && userscore.rust === 0 && userscore.java === 0 && userscore.python === 0 && userscore.javascript === 0) {
             embed.addFields({name: `Aucune aides`, value: `<:embed:801174015406374933>`, inline: false})
         }
-        return message.channel.send({embed});
-    
+        return message.channel.send({embed});   
 }
+};

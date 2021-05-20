@@ -1,8 +1,7 @@
-const {client} = require('../app');
 const SQLite = require('better-sqlite3');
 const sql = new SQLite('./scores.sqlite');
 
-client.on("ready", () => {
+module.exports = function (client) {
 
     const table = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'scores';").get();
     if (!table['count(*)']) {
@@ -15,11 +14,6 @@ client.on("ready", () => {
     }
 
     client.getScore = sql.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
-
-    client.getDevStatus = sql.prepare("SELECT * FROM config WHERE id = 0;");
-    client.setDevStatusTrue = sql.prepare("REPLACE INTO config (devmode, id) VALUES ('true', 0);");
-    client.clearStatus = sql.prepare("DELETE FROM config WHERE id = 0");
-    client.setDevStatusFalse = sql.prepare("REPLACE INTO config (devmode, id) VALUES ('false', 0);");
 
     client.getWarns = sql.prepare("SELECT * FROM warns WHERE user = ? AND guild = ?");
     client.setWarns = sql.prepare("INSERT INTO warns (id, user, guild, warner, reason) VALUES (@id, @user, @guild, @warner, @reason)");
@@ -77,11 +71,5 @@ client.on("ready", () => {
             }
             
         });
-
     }, 15000);
-
-
-    {
-        console.log("Je suis connecté !")
-    }
-});
+};

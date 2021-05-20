@@ -1,4 +1,3 @@
-const {client} = require('../app');
 const Discord = require('discord.js');
 const Canvas = require('canvas');
 
@@ -13,7 +12,7 @@ const applyText = (canvas, text) => {
 	return ctx.font;
 };
 
-client.on('guildMemberAdd', async member => {
+module.exports = async function (client, member) {
 	const channel = member.guild.channels.cache.find(ch => ch.id === '792081256203419648');
 	const canvas = Canvas.createCanvas(700, 250);
 	const ctx = canvas.getContext('2d');
@@ -40,4 +39,4 @@ client.on('guildMemberAdd', async member => {
 	const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
 
 	channel.send(`Bienvenue sur le serveur de Genepix, ${member} !`, attachment);
-});
+};

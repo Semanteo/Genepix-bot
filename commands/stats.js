@@ -1,8 +1,18 @@
 const Discord = require('discord.js');
 const moment = require('moment');
 moment.locale("fr");
-
-module.exports = function (message, client, args) {
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "stats",
+			category: "serveur",
+			aliases: [],
+			description: "Commande permettant de voir les infos concernant un membre",
+			usage: "{{prefix}}stats <membre>"
+		});
+	}
+run(message, client, args) {
 
     const membre = message.mentions.members.first() || message.member;
     const userscore = client.getScore.get(membre.id, message.guild.id);
@@ -23,6 +33,6 @@ module.exports = function (message, client, args) {
     .addField("A rejoint le serveur le :", moment.utc(membre.joinedAt).format('LL'), true)
     .addField("\u200b", "\u200b")
     .addField("Rôles :", membre.roles.cache.sort((a, b) => b.position - a.position).map(r => r).join(' | '))
-    message.channel.send(embed)
-            
+    message.channel.send(embed)           
 }
+};

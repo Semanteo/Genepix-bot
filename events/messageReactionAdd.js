@@ -1,9 +1,8 @@
-const {client} = require('../app');
-
-client.on('messageReactionAdd', (reaction, user) => {
+module.exports = function (client, reaction, user) {
     let message = reaction.message, emoji = reaction.emoji;
     let member = reaction.message.guild.members.cache.find(member => member.id === user.id);
     let score;
+    console.log("add")
     const channel = client.channels.cache.find(channel => channel.id === '812304842647273534')
     if (reaction.message.author.id === user.id) return
     if(reaction.message.channel.id === '792108846658355201') return
@@ -123,4 +122,4 @@ client.on('messageReactionAdd', (reaction, user) => {
                 channel.send(`[LOG] : ${user.tag} a réagit avec l'émoji ${emoji} sur le message de <@${reaction.message.author.tag}> dans le salon <#${reaction.message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${reaction.message.channel.id}/${reaction.message.id}`)
             }
         }
-});
+};

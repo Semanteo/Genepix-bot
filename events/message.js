@@ -1,23 +1,30 @@
-const {client} = require('../app');
-const auth = require('../auth.json');
 const Discord = require('discord.js')
 const SQLite = require('better-sqlite3');
 const sql = new SQLite('./scores.sqlite');
-const commandeHelper = require('../utils/commandHelper.js');
 const g = "791642103393812490";
 
-client.on("message", message => {
-    if (message.author.id === client.user.id) return
-    if (message.author.bot) return
-    const hi = ["Salut", "Bonjour", "Slt"]
-    const n = Math.floor(Math.random() * 10) + 1;
-    for (const i in hi) {
-        if (n === '10') {
-            if (message.content.toLowerCase().includes(hi[i].toLowerCase())) {
-                message.react('👋')
-            }
-        }
+module.exports = async function (client, message) {
+    if (message.content.includes('discord.gg/'||'discordapp.com/invite/')) { 
+        message.delete().then(message.channel.send('Les liens ne sont pas autorisés'))
     }
+    if (message.channel.id === g) {
+        if (message.author.bot) return
+      if(message.author.id !== '799936922939162635'){
+        const idée = message.content
+        const membre = message.member;
+        let embed = new Discord.MessageEmbed()
+        .setTitle(`Nouvelle idée de ${membre.user.tag}`)
+        .setThumbnail(membre.user.displayAvatarURL({dynamic: true}))
+        .setDescription(`**Idée :** ${idée}`)
+        .addField("\u200b", "Réagissez dans <#797472517647630377>")
+        .setTimestamp(new Date)
+        const c = await message.channel.send(embed).then(message.delete())
+        await c.react('<:yes:812255443036274720>');
+        await c.react('🤔');
+        await c.react('<:no:829015744595099648>');
+        }}
+    if (!message.guild || message.author.bot || !message.channel.permissionsFor(client.user.id).has("SEND_MESSAGES") || !message.content.startsWith(client.config.bot.prefix)) return;
+    if (message.author.id === client.user.id) return
     let score;
 
     if (message.guild) {
@@ -49,48 +56,11 @@ client.on("message", message => {
         }
         client.setScore.run(score);
     }
-    if (message.content.indexOf(auth.prefix) !== 0) return;
-    let cmd = message.content.split(' ')[0];
-    if (message.channel.type === "dm") return
-    const args = message.content.slice(auth.prefix.length).trim().split(" ");
-    if(cmd.startsWith(auth.prefix)) {
-        const ded = client.getDevStatus.get()
-        if(message.guild.id === '789670704911613992') {
-            if(message.author.id != '398126558432329728'){
-                if(ded.devmode == 'true'){
-                return message.channel.send('Le mode développement est activé, tu ne peux pas utiliser le bot')
-                }
-            }
-        }
-      cmd = cmd.slice(auth.prefix.length)
-      const command = commandeHelper.getCommand(cmd)
-      if (command){
-          command.func(message, client, args,sql)
-      }
-    }
-});
+    const arg = message.content.trim().slice(client.config.bot.prefix.length).split(/ +/g);
+    const command = client.commands.get(arg[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(arg[0]));
+    const args = arg.slice(1);
+    
+    if (!command) return;
 
-client.on('message', message => {
-    if (message.content.includes('discord.gg/'||'discordapp.com/invite/')) {
-        message.delete().then(message.channel.send('Les liens ne sont pas autorisés'))
-    }
-  });
-
-client.on('message', async message => {
-    if (message.channel.id === g) {
-        if (message.author.bot) return
-      if(message.author.id !== '799936922939162635'){
-        const idée = message.content
-        const membre = message.member;
-        let embed = new Discord.MessageEmbed()
-        .setTitle(`Nouvelle idée de ${membre.user.tag}`)
-        .setThumbnail(membre.user.displayAvatarURL({dynamic: true}))
-        .setDescription(`**Idée :** ${idée}`)
-        .addField("\u200b", "Réagissez dans <#797472517647630377>")
-        .setTimestamp(new Date)
-        const c = await message.channel.send(embed).then(message.delete())
-        await c.react('<:yes:812255443036274720>');
-        await c.react('🤔');
-        await c.react('<:no:829015744595099648>');
-        }}
-  });
+    command.run(message, client, args, sql);
+};

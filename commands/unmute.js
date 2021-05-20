@@ -1,10 +1,19 @@
 const Discord = require('discord.js')
-
-module.exports = async function (message, client, args) {
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "unmute",
+			category: "admin",
+			aliases: [],
+			description: "Commande permettant de unmute un membret",
+			usage: "{{prefix}}unmute {membre}"
+		});
+	}
+async run(message, client, args) {
     
     const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
-    const role2 = message.guild.roles.cache.find(role => role.id === '792889476091215892')  
-    if (!(message.member.roles.cache.has(role) || message.author.id === '398126558432329728' || message.member.roles.cache.has(role2))) return message.channel.send("Vous n'avez pas la permission");
+    if (!(message.member.roles.cache.has(role) || message.author.id === '398126558432329728')) return message.channel.send("Vous n'avez pas la permission");
 
 
     const membre = message.mentions.members.first() || args[1]
@@ -39,5 +48,5 @@ module.exports = async function (message, client, args) {
             .setTimestamp()     
 
             message.channel.send(unmuteembed);    
-
 }
+};

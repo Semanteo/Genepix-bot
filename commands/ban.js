@@ -1,9 +1,18 @@
 const Discord = require('discord.js');
-
-module.exports = function (message, client, args) {
-    const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
-    const role2 = message.guild.roles.cache.find(role => role.id === '792889476091215892')  
-    if (!(message.member.roles.cache.has(role) || message.author.id === '398126558432329728' || message.member.roles.cache.has(role2))) return message.channel.send("Vous n'avez pas la permission");
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "ban",
+			category: "admin",
+			aliases: [],
+			description: "Commande permettant de bannir un membre",
+			usage: "{{prefix}}ban + {Membre} + <raison>"
+		});
+	}
+    run(client, message, args) {
+    const role = message.guild.roles.cache.find(role => role.id === '791681762124103721') 
+    if (!(message.member.roles.cache.has(role) || message.author.id === '398126558432329728')) return message.channel.send("Vous n'avez pas la permission");
 
     const membre = message.mentions.members.first() || args[1]
     if(!membre) {
@@ -38,3 +47,4 @@ module.exports = function (message, client, args) {
         message.channel.send(banembed);
     });
 }
+};

@@ -1,131 +1,73 @@
 const Discord = require('discord.js');
 const {convertTime} = require("../utils/function.js");
-module.exports = function (message, client, args) {
-        if (!args[1]) {
+const Command = require("../utils/commandHandler.js");
 
-            let info = new Discord.MessageEmbed()
-                .setAuthor("Informations sur moi", client.user.displayAvatarURL())
+module.exports = class Help extends Command {
+    constructor() {
+        super({
+            name: "help",
+            category: "bot",
+            aliases: ["h"],
+            description: "Aide sur les commandes",
+            usage: "{{prefix}}help <commandName>"
+        });
+    }    
+        run(message, client, args) {
+            const query = args.join(" ");
+    
+            if (!query) {
+                let type = [];
+                client.commands.forEach(cmd => {
+                    if (!type.includes(cmd.category) && (client.config.root.includes(message.author.id) || cmd.category !== "admin")) {
+                        type.push(cmd.category);
+                    }
+                });
+                let embed = new Discord.MessageEmbed()
+                .setColor(client.config.opts.color)
+                .setAuthor(`Genepix | Liste des commandes`, client.user.displayAvatarURL())
                 .addField("🙍️ **__Infos__**", `Bot de modération qui enregistre le nombre d'aides de chaque personnes du serveur`)
                 .addField("✏️ **__Commandes disponibles__**", `**- g!lb**\n**- g!rank/g!level/g!lvl**\n**- g!tiktok**\n**- g!vote**\n**- g!help/g!infos**\n**- g!links**\n**- g!ping**\n**- g!botinfo**\n**- g!stats**\n**- g!serverinfo**\n**- g!voc**\n**g!report**\nPour les informations sur la commande : g! + help/infos + nom de la commande`)
                 .addField("❓ **__A quoi je sers ?__**", `Genepix sert à comptabiliser le nombre d'aides apportées par les utilisateurs du serveur`)
                 .addField("❓ **__Pour quoi faire ?__**", `Ce système permet aux personnes sur le serveur de connaitre le \"référent\" pour chaque langage de programmation. Cela permet aux personnes qui ont besoin d'aide d'avoir une personne à qui se référer en cas de problèmes`)
                 .addField("🤔 **__Comment ça marche ?__**", `Les personnes qui se sont faites aidées réagissent au message de la personne qui a aidé afin de lui faire augmenter son nombre d'aides dans le langage concerné`)
                 .addField("<:github:819244316430041088> **__Github__**", `https://github.com/Semanteo/Genepix-bot`)
-                .setThumbnail(client.user.displayAvatarURL())
-                .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                .setColor(0x8186dc);
-            message.channel.send(info);
-        } else {
-            if (args[1] === "rank" || args[1] === "level" || args[1] === "lvl") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande rank/level/lvl", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de voir votre nombre d'aides dans chaque langage ou celui d'une autre personne`)
-                    .addField("⚙️ **__Utilisation__**", `g! + rank/level/lvl + [mention de l'utilisateur]\nCe qui est entre crochets et optionnel`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "lb") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande lb", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant d'afficher les référents de chaque langage`)
-                    .addField("⚙️ **__Utilisation__**", `g! + lb`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "tiktok") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande tiktok", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de voir les infos concernant le tiktok de Genepix`)
-                    .addField("⚙️ **__Utilisation__**", `g! + tiktok`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "vote") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande vote", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant d'augmenter le nombre d'aides d'une personne dans le langage concerné`)
-                    .addField("⚙️ **__Utilisation__**", `g! + vote + {@mention} + {langage}\nCe qui est entre accolades est obligatoire`)
-                    .addField("✏️ **__Langages disponibles__**", `java, python, rust, javascript, discordjs, discordpy, c, c++, c#, html, php, sys, bdd, arduino, lua, seo, asm`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "links") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande links", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de voir les liens importants concernant le bot et Genepix`)
-                    .addField("⚙️ **__Utilisation__**", `g! + links`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "ping") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande ping", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de voir le ping du bot et du message`)
-                    .addField("⚙️ **__Utilisation__**", `g! + ping`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "botinfo") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande botinfo", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de voir des informations sur le bot`)
-                    .addField("⚙️ **__Utilisation__**", `g! + botinfo`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "stats") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande stats", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de voir des informations sur un utilisateur`)
-                    .addField("⚙️ **__Utilisation__**", `g! + stats + [mention utilisateur]\nCe qui est entre crochets et optionnel`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "serverinfo") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande serverinfo", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de voir des informations sur le serveur discord`)
-                    .addField("⚙️ **__Utilisation__**", `g! + serverinfo`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "voc") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande voc", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de voir des informations sur le temps passé en vocal`)
-                    .addField("⚙️ **__Utilisation__**", `g! + voc + {time/lb} + [mention utilisateur seulement pour g!voc time]\nCe qui est entre crochets et optionnel\nCe qui est entre accolades est obligatoire`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
-            }
-            if (args[1] === "report") {
-                let inf = new Discord.MessageEmbed()
-                    .setAuthor("Informations sur la commande report", client.user.displayAvatarURL())
-                    .addField("🙍️ **__Infos__**", `Commande permettant de report un membre du serveur`)
-                    .addField("⚙️ **__Utilisation__**", `g! + report`)
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setFooter(`Réalisé par Semanteo#0001 pour Genepix | Version 1.0.0`, client.user.displayAvatarURL())
-                    .setColor(0x8186dc);
-                message.channel.send(inf);
+                .addFields(type.map(cmd => {
+                            return {
+                                name: `• ${cmd[0].toUpperCase()}${cmd.slice(1, 10)} (${client.commands.filter(command => command.category === cmd).size})`,
+                                value: client.commands.filter(command => command.category === cmd).map(command => `\`${command.name}\``).join(", "),
+                                inline: false
+                            };
+                        }))
+                .setTimestamp(new Date())
+                .setFooter(`© Genepix | Pour plus d'informations, faites ${client.config.bot.prefix}help <command>`, message.author.displayAvatarURL())
+
+                return message.channel.send({embed})
+            } else {
+                const data = client.commands.get(query.toLowerCase()) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(query.toLowerCase()));
+                if (!data) return message.channel.send("❌ Commande non trouvée !");
+        
+                const aliases = ((data.aliases.length > 0) ? data.aliases.map((a) => `\`${a}\``).join(", ") : "`Aucun`");
+    
+                message.channel.send({
+                    embed: {
+                        author: {
+                            name: `Commande : ${data.name} | Categorie : ${data.category[0].toUpperCase()}${data.category.slice(1, 10)}`,
+                            icon_url: client.user.avatarURL()
+                        },
+                        description: `**${data.description}**`,
+                        thumbnail: {
+                            url: client.user.displayAvatarURL()
+                        },
+                        color: 0x2f6e93,
+                        fields: [{
+                            name: "\\⚙ Usage",
+                            value: `\`${data.usage}\``.replace("{{prefix}}", client.config.bot.prefix)
+                        }, {
+                            name: "\\✨ Aliases",
+                            value: aliases
+                        }]
+                    }
+                });
             }
         }
-}
+    };

@@ -1,6 +1,16 @@
 const Discord = require('discord.js');
-
-module.exports = function (message, client, sql) {
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "leaderboard",
+			category: "aides",
+			aliases: ["lb"],
+			description: "Commande permettant de voir les référents de chaque langage",
+			usage: "{{prefix}}lb"
+		});
+	}
+run(message, client, args, sql) {
         const java = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY java DESC LIMIT 1;").all(message.guild.id);
         const javascript = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY javascript DESC LIMIT 1;").all(message.guild.id);
         const python = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY python DESC LIMIT 1;").all(message.guild.id);
@@ -150,3 +160,4 @@ module.exports = function (message, client, sql) {
         }
         return message.channel.send({embed});
 }
+};

@@ -1,7 +1,18 @@
 const Discord = require('discord.js');
-
-module.exports = function (message, client) {
-
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "mutelist",
+			category: "admin",
+			aliases: [],
+			description: "Commande permettant de voir la liste des personnes mute",
+			usage: "{{prefix}}mutelist"
+		});
+	}
+run(message, client) {
+const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
+if (!(message.member.roles.cache.has(role) || message.author.id === '398126558432329728')) return message.channel.send("Vous n'avez pas la permission");
 let muteRole = message.guild.roles.cache.find(role => role.name === 'Muet')
 if(!muteRole) return message.channel.send("Personne n'as encore été mute sur votre serveur")
 
@@ -32,3 +43,4 @@ if(!mute) return message.channel.send(embed)
             }
         });         
 }
+};

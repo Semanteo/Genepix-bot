@@ -1,7 +1,17 @@
 const TikTokScraper = require('tiktok-scraper');
 const Discord = require('discord.js');
-
-module.exports = async function (message) {
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "tiktok",
+			category: "genepix",
+			aliases: [],
+			description: "Commande permettant de voir les infos concernant le tiktok de genepix",
+			usage: "{{prefix}}tiktok"
+		});
+	}
+async run(message) {
         try {
             const user = await TikTokScraper.getUserProfileInfo('genepixontiktok');
             let em = new Discord.MessageEmbed()
@@ -18,3 +28,4 @@ module.exports = async function (message) {
             console.log(error);
         }
 }
+};

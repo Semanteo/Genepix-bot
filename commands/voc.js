@@ -1,6 +1,16 @@
 const Discord = require('discord.js');
-
-module.exports = function (message, client, args, sql) {
+const Command = require("../utils/commandHandler.js");
+module.exports = class Botinfo extends Command {
+	constructor() {
+		super({
+			name: "voc",
+			category: "serveur",
+			aliases: [],
+			description: "Commande permettant de voir les infos concernant les temps passés en voc",
+			usage: "{{prefix}}voc {time <membre>}/{lb}"
+		});
+	}
+run(message, client, args, sql) {
 
     if(args[1] === 'time'){
         const membre = message.mentions.members.first() || message.member;
@@ -61,3 +71,4 @@ module.exports = function (message, client, args, sql) {
         return message.channel.send({embed});
     }
 }
+};
