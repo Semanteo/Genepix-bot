@@ -4,7 +4,7 @@ module.exports = class Botinfo extends Command {
 	constructor() {
 		super({
 			name: "report",
-			category: "bot",
+			category: "serveur",
 			aliases: [],
 			description: "Commande permettant de report quelqu'un",
 			usage: "{{prefix}}report"

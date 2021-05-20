@@ -26,7 +26,6 @@ module.exports = class Help extends Command {
                 .setColor(client.config.opts.color)
                 .setAuthor(`Genepix | Liste des commandes`, client.user.displayAvatarURL())
                 .addField("🙍️ **__Infos__**", `Bot de modération qui enregistre le nombre d'aides de chaque personnes du serveur`)
-                .addField("✏️ **__Commandes disponibles__**", `**- g!lb**\n**- g!rank/g!level/g!lvl**\n**- g!tiktok**\n**- g!vote**\n**- g!help/g!infos**\n**- g!links**\n**- g!ping**\n**- g!botinfo**\n**- g!stats**\n**- g!serverinfo**\n**- g!voc**\n**g!report**\nPour les informations sur la commande : g! + help/infos + nom de la commande`)
                 .addField("❓ **__A quoi je sers ?__**", `Genepix sert à comptabiliser le nombre d'aides apportées par les utilisateurs du serveur`)
                 .addField("❓ **__Pour quoi faire ?__**", `Ce système permet aux personnes sur le serveur de connaitre le \"référent\" pour chaque langage de programmation. Cela permet aux personnes qui ont besoin d'aide d'avoir une personne à qui se référer en cas de problèmes`)
                 .addField("🤔 **__Comment ça marche ?__**", `Les personnes qui se sont faites aidées réagissent au message de la personne qui a aidé afin de lui faire augmenter son nombre d'aides dans le langage concerné`)
