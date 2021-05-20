@@ -160,4 +160,7 @@ run(message, client, args, sql) {
         }
         return message.channel.send({embed});
 }
+<<<<<<< HEAD
 };
+=======
+>>>>>>> c1307e74e256538a05247335cbfca0eb0f9a2cb5
