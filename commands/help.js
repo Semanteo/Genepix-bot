@@ -13,7 +13,7 @@ module.exports = class Help extends Command {
         });
     }    
         run(message, client, args) {
-            const query = args.join(" ");
+            const query = args.slice(1).join(" ");
     
             if (!query) {
                 let type = [];

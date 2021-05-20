@@ -56,9 +56,8 @@ module.exports = async function (client, message) {
         }
         client.setScore.run(score);
     }
-    const arg = message.content.trim().slice(client.config.bot.prefix.length).split(/ +/g);
-    const command = client.commands.get(arg[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(arg[0]));
-    const args = arg.slice(1);
+    const args = message.content.trim().slice(client.config.bot.prefix.length).split(/ +/g);
+    const command = client.commands.get(args[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
     
     if (!command) return;
 
