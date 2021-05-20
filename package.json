@@ -30,6 +30,8 @@
   },
   "devDependencies": {
     "better-sqlite3": "^7.1.2",
+    "moment": "^2.29.1",
+    "canvas": "^2.7.0",
     "tiktok-scraper": "^1.4.12"
   }
 }
