@@ -1,28 +1,30 @@
-const { Client, Collection } = require("discord.js"),
-    { readdirSync } = require("fs"),
-    { join } = require("path");
+const { Client, Collection } = require("discord.js");
+const { readdir } = require("fs/promises");
+const { join } = require("path");
 
 class Genepix extends Client {
     constructor() {
-        super({
-        });
-        this.config = require('./config.js');
+        super({});
+        this.config = require("./config.js");
         this.commands = new Collection();
-        this.launch();
+        this.launch().catch();
     }
 
-    launch() {
-        this.eventsLoad();
-        this.commandsLoad();
+    async launch() {
+        await this.eventsLoad();
+        await this.commandsLoad();
         this.login(this.config.bot.token).then(() => console.log(["Genepix"], "Connecté à discord")).catch((e) => {
             console.error(["Base-WS"], `Connection error: ${e}`);
             return process.exit(1);
         });
     }
 
-    eventsLoad() {  
-        const events = readdirSync(join(__dirname, "./events")).filter(f => f.endsWith(".js"));
-        if (events.length === 0) return console.log(["Problem"], "No event found !");
+    async eventsLoad() {
+        const events = (await readdir(join(__dirname, "./events"))).filter(f => f.endsWith(".js"));
+        if (events.length === 0) {
+            console.log(["Problem"], "No event found !");
+            return;
+        }
         let count = 0;
 
         for (const element of events) {
@@ -39,10 +41,13 @@ class Genepix extends Client {
         console.log(["Events"], `${count}/${events.length} events chargés`);
     }
 
-    commandsLoad() {
+    async commandsLoad() {
         let count = 0;
-        const commands = readdirSync(join(__dirname, "./commands")).filter(f => f.endsWith(".js"));
-        if (commands.length === 0) return console.log(["Problem"], "No command found !");
+        const commands = (await (join(__dirname, "./commands"))).filter(f => f.endsWith(".js"));
+        if (commands.length === 0) {
+            console.log(["Problem"], "No command found !");
+            return;
+        }
 
         for (const element of commands) {
             try {

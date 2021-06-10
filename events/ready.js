@@ -1,11 +1,10 @@
-const SQLite = require('better-sqlite3');
-const sql = new SQLite('./scores.sqlite');
+const SQLite = require("better-sqlite3");
+const sql = new SQLite("./scores.sqlite");
 
 module.exports = function (client) {
 
     const table = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'scores';").get();
-    if (!table['count(*)']) {
-
+    if (!table["count(*)"]) {
         sql.prepare("CREATE TABLE scores (id TEXT PRIMARY KEY, user TEXT, guild TEXT, java INTEGER, python INTEGER, rust INTEGER, discordjs INTEGER, discordpy INTEGER, c INTEGER, cplus INTEGER, csharp INTEGER, javascript INTEGER, html INTEGER, php INTEGER, sys INTEGER, bdd INTEGER, arduino INTEGER, lua INTEGER, seo INTEGER, asm INTEGER, voc INTEGER);").run();
         sql.prepare("CREATE TABLE warns (id TEXT PRIMARY KEY, user TEXT, guild TEXT, warner TEXT, reason TEXT);").run();
 
@@ -22,28 +21,34 @@ module.exports = function (client) {
 
     client.setScore = sql.prepare("REPLACE INTO scores (id, user, guild, java, python, rust, discordjs, discordpy, c, cplus, csharp, javascript, html, php, sys, bdd, arduino, lua, seo, asm, voc) VALUES (@id, @user, @guild, @java, @python, @rust, @discordjs, @discordpy, @c, @cplus, @csharp, @javascript, @html, @php, @sys, @bdd, @arduino, @lua, @seo, @asm, @voc);");
     setInterval(function () {
-        const guild = client.guilds.cache.find(g => g.id === '789670704911613992')
+        const guild = client.guilds.cache.get("789670704911613992");
         client.user.setPresence({
             activity: {
                 name: `les aides de ${guild.memberCount} users, dans les ${guild.channels.cache.size} channels de Genepix • g!help`,
                 type: "WATCHING",
             }
-        })
+        });
     }, 15000);
 
     setInterval(function () {
-        const guild = client.guilds.cache.find(g => g.id === '789670704911613992')
+        const guild = client.guilds.cache.get("789670704911613992");
 
 
         guild.members.cache.forEach(member => {
-            if(member.user.bot) return
+            if(member.user.bot) {
+                return;
+            }
             if(member.voice.channel){
-                if(member.voice.channel.members.size === 1) return
-                var bots = member.voice.channel.members.filter(m => m.user.bot === true);
-                if(bots.size != 0) return;
-                let score;
-                score = client.getScore.get(member.id, guild.id);
-                    if(!score) {score = {
+                if(member.voice.channel.members.size === 1) {
+                    return;
+                }
+                const bots = member.voice.channel.members.filter(m => m.user.bot === true);
+                if(bots.size !== 0) {
+                    return;
+                }
+                let score = client.getScore.get(member.id, guild.id);
+                if(!score) {
+                    score = {
                         id: `${guild.id}-${member.id}`,
                         user: member.id,
                         guild: guild.id,
@@ -65,10 +70,10 @@ module.exports = function (client) {
                         seo: 0,
                         asm: 0,
                         voc: 0
-                    }
+                    };
                 }
-               score.voc = score.voc+15
-               client.setScore.run(score)
+                score.voc += 15;
+                client.setScore.run(score);
             }
             
         });

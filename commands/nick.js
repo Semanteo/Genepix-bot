@@ -1,37 +1,42 @@
-const Discord = require('discord.js');
-const fs = require('fs');
+const { readFile } = require("fs/promises");
 const Command = require("../utils/commandHandler.js");
-module.exports = class Botinfo extends Command {
-	constructor() {
-		super({
-			name: "nick",
-			category: "admin",
-			aliases: [],
-			description: "Commande permettant d'enlever les carachtères spéciaux d'un pseudo",
-			usage: "{{prefix}}nick {Membre"
-		});
-	}
-run(message, client) {
-        const membre = message.mentions.members.first()
-        const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
-        if (!(message.member.roles.cache.has(role) || message.author.id === '398126558432329728')) return message.channel.send("Vous n'avez pas la permission");
-        if(!membre) {
-            return message.channel.send(`Veuillez mentionner la personne à qui enlevé les charactères spéciaux.`).then(msg => msg.delete({timeout: 4000})).then(message.delete());
-        }
-        li = []
-        var m = membre.nickname;
-        fs.readFileSync('./decancer.txt', 'utf-8', (err) => {
 
-            if (!err) return;
-        
-            console.error(err)
-        
-        }).split('\n').forEach(function(line){li.push(line.replace('\r', ''))})
-        for(var i = 0; i<li.length; i++){
-            const characters = li[i].split(',');    
-            m = m.replace(characters[0], characters[1])       
+module.exports = class Nick extends Command {
+    constructor() {
+        super({
+            name: "nick",
+            category: "admin",
+            aliases: [],
+            description: "Commande permettant d'enlever les carachtères spéciaux d'un pseudo",
+            usage: (prefix) => `${prefix}nick <membre>`
+        });
+    }
+
+    async run(message) {
+        const member = message.mentions.members.first();
+        const role = message.guild.roles.cache.get("791681762124103721");
+        if (!(message.member.roles.cache.has(role.id) || message.author.id === "398126558432329728")) {
+            await message.channel.send("Vous n'avez pas la permission");
+            return;
         }
-        membre.setNickname(m).catch(console.error)
-        message.channel.send(`Le pseudo de ${membre} a bien été enlevé des charactères spéciaux`)
-}
+
+        if(!member) {
+            const msg = await message.channel.send("Veuillez mentionner la personne à qui enlevé les charactères spéciaux.");
+            msg.delete({timeout: 4000});
+            return;
+        }
+        const li = [];
+        let m = member.nickname;
+
+        const file = await readFile("./decancer.txt", {encoding: "utf-8"});
+        file.split("\n")
+            .forEach((line) => li.push(line.replace("\r", "")));
+
+        for(let i = 0; i < li.length; i++){
+            const characters = li[i].split(",");    
+            m = m.replace(characters[0], characters[1]);       
+        }
+        member.setNickname(m).catch(console.error);
+        message.channel.send(`Les caractères spéciaux on bien été enlevé du pseudo de ${member.user.tag}`);
+    }
 };
