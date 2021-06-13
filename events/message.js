@@ -3,9 +3,26 @@ const SQLite = require('better-sqlite3');
 const sql = new SQLite('./scores.sqlite');
 const g = "791642103393812490";
 
+
 module.exports = async function (client, message) {
-    if (message.content.includes('discord.gg/'||'discordapp.com/invite/')) { 
-        message.delete().then(message.channel.send('Les liens ne sont pas autorisés'))
+    
+    
+client.on('message', async (message) => {
+
+    const inviter = (guild, code) => new Promise((resolve) => {
+        guild.fetchInvites().then((inviter) => {
+            resolve(inviter.some((value) => value[0] === code))
+        })
+    });
+
+    const code = message.content.split('discord.gg/')[1];
+    if (message.content.includes('discord.gg/')) {
+        if (message.member && message.member.hasPermission('ADMINISTRATOR')) return;
+        const Invite = await inviter(message.guild, code);
+        if (!Invite) {
+            message.delete()
+            message.reply('Les liens ne sont pas autorisés')
+        }
     }
     if (message.channel.id === g) {
         if (message.author.bot) return
@@ -60,6 +77,12 @@ module.exports = async function (client, message) {
     const command = client.commands.get(args[0]) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(args[0]));
     
     if (!command) return;
-
+            
+try {
     command.run(message, client, args, sql);
+} catch (err) {
+    message.reply("il y a eu une erreur en essayant d'exécuter cette commande")
+    console.log(err);
+  }
+            
 };
