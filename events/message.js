@@ -7,8 +7,6 @@ const g = "791642103393812490";
 module.exports = async function (client, message) {
     
     
-client.on('message', async (message) => {
-
     const inviter = (guild, code) => new Promise((resolve) => {
         guild.fetchInvites().then((inviter) => {
             resolve(inviter.some((value) => value[0] === code))
