@@ -1,37 +1,47 @@
-const Discord = require('discord.js');
+const {MessageEmbed} = require("discord.js");
 const Command = require("../utils/commandHandler.js");
-module.exports = class Botinfo extends Command {
-	constructor() {
-		super({
-			name: "checkwarns",
-			category: "admin",
-			aliases: [],
-			description: "Commande permettant de voir les warns d'un membre",
-			usage: "{{prefix}}checkwarns {Membre}"
-		});
-	}
-    run (message, client, args, sql){
-    const role = message.guild.roles.cache.find(role => role.id === '791681762124103721')
-    if (!(message.member.roles.cache.has(role) || message.author.id === '398126558432329728')) return message.channel.send("Vous n'avez pas la permission");
+const { version } = require("../package.json");
 
-        const membre = message.mentions.members.first()
-        if(!membre) {
-            return message.channel.send(`Veuillez mentionner la personne à ban.`).then(msg => msg.delete({timeout: 4000})).then(message.delete());
+module.exports = class CheckWarns extends Command {
+    constructor() {
+        super({
+            name: "checkwarns",
+            category: "admin",
+            aliases: [],
+            description: "Commande permettant de voir les warns d'un membre",
+            usage: (prefix) => `${prefix}checkwarns <membre>`
+        });
+    }
+
+    async run (message, client, args, sql){
+        const role = message.guild.roles.cache.get("791681762124103721");
+        if (!(message.member.roles.cache.has(role.id) || message.author.id === "398126558432329728")) {
+            message.channel.send("Vous n'avez pas la permission");
+            return;
         }
-        const checkwarnsembed = new Discord.MessageEmbed()
-        .setTitle(`Warns de ${membre.user.tag} - ${membre.id}`)
-        .setColor('#ff0000')
-        .setFooter(`Genepix | Version 1.0`, client.user.displayAvatarURL())
-        .setTimestamp()     
-        const warns = sql.prepare("SELECT * FROM warns WHERE user = ?").all(membre.id);
+
+        const member = message.mentions.members.first();
+        if(!member) {
+            const msg = await message.channel.send("Veuillez mentionner la personne à ban.");
+            msg.delete({timeout: 4000});
+            return;
+        }
+
+        const checkWarnsEmbed = new MessageEmbed()
+            .setTitle(`Warns de ${member.user.tag} - ${member.id}`)
+            .setColor("#ff0000")
+            .setFooter(`Genepix | Version ${version}`, client.user.displayAvatarURL())
+            .setTimestamp();     
+        const warns = sql.prepare("SELECT * FROM warns WHERE user = ?").all(member.id);
 
         for(const data of warns){
-            checkwarnsembed.addField(`\u200b`, `${client.users.cache.get(data.user)} à été warn par ${client.users.cache.get(data.warner)} pour : ${data.reason}`);
-        }
-        if(checkwarnsembed.fields.length === 0) {
-            checkwarnsembed.addField(`\u200b`, `<@${membre.id}> n'as aucun warns`);
+            checkWarnsEmbed.addField("\u200b", `${client.users.cache.get(data.user)} à été warn par ${client.users.cache.get(data.warner)} pour : ${data.reason}`);
         }
 
-            message.channel.send(checkwarnsembed)
-}
-}
+        if(checkWarnsEmbed.fields.length === 0) {
+            checkWarnsEmbed.addField("\u200b", `<@${member.id}> n'as aucun warns`);
+        }
+
+        await message.channel.send(checkWarnsEmbed);
+    }
+};
