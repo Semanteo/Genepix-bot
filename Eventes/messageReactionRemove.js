@@ -1,4 +1,6 @@
-module.exports = function (client, reaction, user) {
+module.exports = {
+    name: 'messageReactionRemove',
+    async execute(client, reaction, user) {
     let message = reaction.message, emoji = reaction.emoji;
     let member = reaction.message.guild.members.cache.find(member => member.id === user.id);
     let score;
@@ -29,11 +31,10 @@ module.exports = function (client, reaction, user) {
                 arduino: 0,
                 lua: 0,
                 seo: 0,
-                asm: 0,
-                voc: 0
+                asm: 0
             }
         }
-        if (emoji.id === '792105873915904030') {
+        if (emoji.id === '791680343698309121') {
             score.java--;
             client.setScore.run(score);
             channel.send(`[LOG] : ${user.tag} a enlevé sa réaction avec l'émoji ${emoji} sur le message de <@${reaction.message.author.tag}> dans le salon <#${reaction.message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${reaction.message.channel.id}/${reaction.message.id}`)
@@ -119,4 +120,5 @@ module.exports = function (client, reaction, user) {
             channel.send(`[LOG] : ${user.tag} a enlevé sa réaction avec l'émoji ${emoji} sur le message de <@${reaction.message.author.tag}> dans le salon <#${reaction.message.channel.id}>\nLien : https://discord.com/channels/789670704911613992/${reaction.message.channel.id}/${reaction.message.id}`)
         }
     }
-};
+}
+}

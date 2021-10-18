@@ -1,23 +1,25 @@
-const Discord = require('discord.js');
-const Command = require("../utils/commandHandler.js");
-module.exports = class Botinfo extends Command {
-	constructor() {
-		super({
-			name: "rank",
-			category: "aides",
-			aliases: ["lvl", "level"],
-			description: "Commande permettant de voir les aides de quelqu'un ou les notres",
-			usage: "{{prefix}}rank/lvl/level <membre>"
-		});
-	}
-run(message, client) {
-        const membre = message.mentions.members.first() || message.member;
+const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
+const {convertTime} = require("../utils/function.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const config = require('../config.js');
+module.exports = {
+    name: "rank",
+	category: "aides",
+	aliases: [],
+	description: "Commande permettant de voir les aides de quelqu'un ou les notres",
+	usage: "{{prefix}}rank <membre>",
+	data: new SlashCommandBuilder()
+		.setName('rank')
+		.setDescription("Commande permettant de voir les aides de quelqu'un ou les notres")
+        .addUserOption(option => option.setName('target').setDescription('Mentionner un user')),
 
-        let userscore = client.getScore.get(membre.id, message.guild.id);
+	async execute(client, interaction) {
+        const membre = interaction.options.getMember('target') || interaction.guild.members.cache.find(f => f.id === interaction.user.id);
 
-        if (!userscore) return message.reply(`Nous n'avons pas trouvé ${membre.user.tag}`)
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(membre.user.username, membre.user.displayAvatarURL({dynamic: true}))
+        let userscore = client.getScore.get(membre.id, interaction.guild.id);
+        if (!userscore) return await interaction.reply(`Nous n'avons pas trouvé ${membre.user.tag}`)
+        const embed = new MessageEmbed()
+            .setAuthor(membre.user.username, membre.user.displayAvatarURL())
             .addFields({name: "Votre nombre d'aides", value: "\u200b"})
             .setColor(0x020000)
         if (userscore.javascript !== 0) {
@@ -142,6 +144,6 @@ run(message, client) {
         if (userscore.asm === 0 && userscore.seo === 0 && userscore.lua === 0 && userscore.arduino === 0 && userscore.bdd === 0 && userscore.sys === 0 && userscore.php === 0 && userscore.html === 0 && userscore.csharp === 0 && userscore.cplus === 0 && userscore.c === 0 && userscore.discordpy === 0 && userscore.discordjs === 0 && userscore.rust === 0 && userscore.java === 0 && userscore.python === 0 && userscore.javascript === 0) {
             embed.addFields({name: `Aucune aides`, value: `<:embed:801174015406374933>`, inline: false})
         }
-        return message.channel.send({embed});   
-}
+        return await interaction.reply({embeds: [embed]});   
+    }
 };
