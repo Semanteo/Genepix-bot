@@ -52,6 +52,12 @@ Si vous utilisez yarn :
 yarn install
 ```
 
+#### Déployer les slashs commands
+
+```yaml
+node deploy-commands
+```
+
 #### Start
 
 ```yaml
