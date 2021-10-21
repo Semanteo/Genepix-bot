@@ -55,12 +55,7 @@ yarn install
 #### Start
 
 ```yaml
-npm start
-```
-
-Si vous utilisez yarn :
-```bash
-yarn start
+node index
 ```
 
 ## Bug
