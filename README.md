@@ -5,9 +5,9 @@
 
 🙍️ Info : Bot de modération qui enregistre le nombre d'aides de chaque personne présente sur le serveur
 
-✏️ Commandes disponibles : g!lb, g!rank/g!level/g!lvl, g!tiktok, g!vote, g!help/g!infos, g!botinfo, g!stats; g!serverinfo, g!links, g!ping
+✏️ Commandes disponibles : /lb, /rank, /tiktok, /vote, /help, /botinfo, /stats; /serverinfo, /links, /ping
 
-Pour les informations sur les commandes : g! + help/infos + nom de la commande
+Pour les informations sur les commandes : /help + nom de la commande
 
 ❓ A quoi il sert ? :  Genepix sert à comptabiliser le nombre d'aides apportées par les utilisateurs du serveur
 
@@ -26,13 +26,21 @@ Cloner le projet sur votre ordi :
 git clone https://github.com/Semanteo/Genepix-bot.git
 ```
 
-Ajouter le token depuis https://discord.com/developers/applications pour votre bot dans le fichier : auth.json
+Ajouter le token depuis https://discord.com/developers/applications pour votre bot dans le fichier : config.js
 
-```yaml
-{
-    "token":"tonToken",
-    "prefix":"g!"
-}
+```js
+module.exports = {
+    root: ["ID 1 DROITS ADMIN", "ETC"],
+    bot: {
+        clientId: "ID DU BOT",
+        guildId: "ID DE LA GUILD POUR LES /COMMANDS",
+        token: "TOKEN DU BOT",
+        prefix: "g!"
+    },
+    opts: {
+        color: 0x2f6e93
+    },
+};
 ```
 
 ```bash
