@@ -1,7 +1,7 @@
 # Genepix-bot
 > Créé pour le serveur discord de Genepix
 
-[Lien Discord](https://discord.gg/genepix)
+[Lien Discord](https://discord.gg/dw3eNPmyWm)
 
 🙍️ Info : Bot de modération qui enregistre le nombre d'aides de chaque personne présente sur le serveur
 
