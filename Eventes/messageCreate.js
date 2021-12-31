@@ -298,9 +298,9 @@ module.exports = {
         .addField("\u200b", "Réagissez dans <#797472517647630377>")
         .setTimestamp(new Date)
         const c = await message.channel.send({embeds: [embed]}).then(message.delete())
-        await c.react('<:yes:812255443036274720>');
+        await c.react('<:GOD_yes:812255443036274720>');
         await c.react('🤔');
-        await c.react('<:no:829015744595099648>');
+        await c.react('<:GOD_no:911550596190990346>');
         }}
     if (message.author.id === client.user.id) return
     let score;

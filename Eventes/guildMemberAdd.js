@@ -41,6 +41,6 @@ module.exports = {
 
 	const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
 
-	channel.send(`Bienvenue sur le serveur de Genepix, ${member} !`, attachment);
+	channel.send({content: `Bienvenue sur le serveur de Genepix, ${member} !`, files: [attachment]});
 }
 }

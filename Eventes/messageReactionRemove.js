@@ -4,7 +4,6 @@ module.exports = {
     let message = reaction.message, emoji = reaction.emoji;
     let member = reaction.message.guild.members.cache.find(member => member.id === user.id);
     let score;
-    console.log("remove")
     const channel = client.channels.cache.find(channel => channel.id === '812304842647273534')
     if (reaction.message.author.id === user.id) return
     if(reaction.message.channel.id === '792108846658355201') return
